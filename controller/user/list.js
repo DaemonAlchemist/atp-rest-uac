@@ -10,7 +10,7 @@ export default (req, res) => {
         .loggedIn()
         .hasPermission('auth.user.view')
         .then(() => {
-            new User().list((err, rows, field) => {
+            new User().list().then(([err, rows, field]) => {
                 res.send({results: rows});
             });
         })

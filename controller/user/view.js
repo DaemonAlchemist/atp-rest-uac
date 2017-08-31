@@ -13,7 +13,7 @@ export default (req, res) => {
         .isInteger(req.params.userId, "User id")
         .userExists(req.params.userId)
         .then(() => {
-            new User().getByUserName(req.params.userName, (err, user, field) => {
+            new User().getByUserName(req.params.userName).then(([err, user, field]) => {
                 res.send({results: user});
             });
         });

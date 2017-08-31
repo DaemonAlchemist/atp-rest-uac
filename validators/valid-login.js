@@ -4,8 +4,8 @@
 
 import {error, validate} from "atp-validator";
 
-export default userId => validate(
+export default (userName, password) => validate(
     true, //TODO:  Implement
-    "That user does not exist",
-    404
+    "Invalid username or password",
+    401
 );
