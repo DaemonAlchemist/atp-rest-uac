@@ -15,18 +15,18 @@ config.setDefaults({
             issuer: req => req.headers.host,
         }
     }
-})
+});
 
 
 export default class User extends Entity
 {
     constructor() {
-        super('user', 'atpadmin_users');
+        super('user', 'atpadmin_users', ['user_name']);
         this.secretKey = "df34r3tg4h93rg8j24r29u4fnunrf928nr894nf8943n389nf2n4";
     }
 
     getByUserName(userName) {
-        return this.where('username', userName).get();
+        return this.getByIndex('user_name', userName);
     }
 
     createLoginToken(req, user) {

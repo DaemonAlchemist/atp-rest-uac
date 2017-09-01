@@ -5,9 +5,9 @@
 import {error, validate} from "atp-validator";
 import User from '../model/user';
 
-export default userId => validate(
+export default userName => validate(
     () => {
-        const user = new User().getById(userId);
+        const user = new User().getByUserName(userName);
         return user.enabled;
     },
     "That user is not active",

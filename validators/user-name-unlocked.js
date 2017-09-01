@@ -3,10 +3,12 @@
  */
 
 import {error, validate} from "atp-validator";
-import User from '../model/user';
 
 export default userName => validate(
-    new User().where('user_name', userName).count() === 1,
-    "That user does not exist",
+    () => {
+        const user = new User().getByUserName(userName);
+        return !user.locked;
+    },
+    "That user is locked",
     404
 );
