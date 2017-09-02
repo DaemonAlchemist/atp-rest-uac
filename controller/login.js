@@ -19,19 +19,21 @@ export default (req, res, next) => {
             .userActive(userName)
             .userUnlocked(userName)
             .validLogin(userName, password)
-        .then(() => {
-            const user = new User();
-            const userData = user.getByUserName(userName)
-            const loginToken = user.createLoginToken(req, userData);
-            res
-                .header('loginToken', loginToken)
-                .cookie('loginToken', loginToken)
-                .send({
-                    messages: [{'type': 'success', 'text': 'Login successful'}],
-                    results: {loginToken}
-                });
-        })
-        .catch((errors) => {
-            res.status(errors[0].code).send({messages: errors});
-        });
+        .then(
+            () => {
+                const user = new User();
+                const userData = user.getByUserName(userName)
+                const loginToken = user.createLoginToken(req, userData);
+                res
+                    .header('loginToken', loginToken)
+                    .cookie('loginToken', loginToken)
+                    .send({
+                        messages: [{'type': 'success', 'text': 'Login successful'}],
+                        results: {loginToken}
+                    });
+            },
+            errors => {
+                res.status(errors[0].code).send({messages: errors});
+            }
+        );
 }

@@ -5,7 +5,7 @@
 import {error, validate} from "atp-validator";
 
 export default permissionList => validate(
-    true, //TODO:  Implement
+    (resolve, reject) => resolve(), //TODO:  Implement
     "You do not have permission to access this",
     403
 );

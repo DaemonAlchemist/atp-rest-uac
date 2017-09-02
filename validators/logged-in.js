@@ -5,7 +5,7 @@
 import {error, validate} from "atp-validator";
 
 export default request => validate(
-    true,  //TODO:  Implement
+    (resolve, reject) => resolve(),  //TODO:  Implement
     "You must be logged in to access this",
     401
 );

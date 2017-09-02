@@ -5,7 +5,7 @@
 import {error, validate} from "atp-validator";
 
 export default userId => validate(
-    true, //TODO:  Implement
+    (resolve, reject) => resolve(), //TODO:  Implement
     "That user does not exist",
     404
 );
