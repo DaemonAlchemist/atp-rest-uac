@@ -13,8 +13,17 @@ export default (req, res) => {
         .isInteger(req.params.userId, "User id")
         .userExists(req.params.userId)
         .then(() => {
-            new User().getByUserName(req.params.userName).then(([err, user, field]) => {
-                res.send({results: user});
-            });
+            new User().getByUserName(req.params.userName)
+                .then(user => {
+                    res.send({results: user});
+                })
+                .catch(err => {
+                    res.send({messages: [
+                        {
+                            type: "error",
+                            text: "There was an error accessing the user: " + err.syscall + "[" + err.code + "]"
+                        }
+                    ]});
+                });
         });
 }

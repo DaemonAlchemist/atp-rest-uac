@@ -2,11 +2,16 @@
  * Created by Andy on 8/29/2017.
  */
 
-import {error, validate} from "atp-validator";
+import {validate} from "atp-validator";
+import {error} from 'atp-active-record';
 
 export default userName => validate(
     (resolve, reject) => {
-        !(new User().getByUserName(userName).locked) ? resolve() : reject();
+        new User().getByUserName(userName)
+            .then(user => {
+                !user.locked ? resolve() : reject();
+            })
+            .catch(error("account status", reject))
     },
     "That user is locked",
     404

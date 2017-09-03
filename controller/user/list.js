@@ -10,9 +10,18 @@ export default (req, res) => {
         .loggedIn()
         .hasPermission('auth.user.view')
         .then(() => {
-            new User().list().then(([err, rows, field]) => {
-                res.send({results: rows});
-            });
+            new User().list()
+                .then(rows => {
+                    res.send({results: rows});
+                })
+                .catch(err => {
+                    res.send({messages: [
+                        {
+                            type: "error",
+                            text: "There was an error accessing the user ist: " + err.syscall + "[" + err.code + "]"
+                        }
+                    ]});
+                });
         })
         .catch(errors => {
             res.send({errors});

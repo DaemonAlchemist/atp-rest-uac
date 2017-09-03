@@ -2,10 +2,15 @@
  * Created by Andy on 8/29/2017.
  */
 
-import {error, validate} from "atp-validator";
+import {validate} from "atp-validator";
+import {error} from 'atp-active-record';
 
 export default userId => validate(
-    (resolve, reject) => resolve(), //TODO:  Implement
+    (resolve, reject) => {
+        new User().where('id', userId).count()
+            .then(result => {result === 1 ? resolve() : reject();})
+            .catch(error("Checking your user account", reject));
+    },
     "That user does not exist",
     404
 );
