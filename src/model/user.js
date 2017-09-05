@@ -5,6 +5,7 @@
 import {Entity} from 'atp-active-record';
 import jwt from 'jsonwebtoken';
 import config from 'atp-config';
+import hash from 'password-hash';
 
 config.setDefaults({
     uac: {
@@ -39,5 +40,9 @@ export default class User extends Entity
             jwtid: "" + user.id,
             subject: user.username
         });
+    }
+
+    hashPassword(password) {
+        return hash.generate(password);
     }
 }

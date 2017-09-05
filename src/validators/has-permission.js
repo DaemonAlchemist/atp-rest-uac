@@ -2,10 +2,14 @@
  * Created by Andy on 8/29/2017.
  */
 
-import {error, validate} from "atp-validator";
+import {validate} from "atp-validator";
+import UserPermissionCompiled from "../model/user-permission-compiled";
+import {loggedInUser} from "../util";
 
-export default permissionList => validate(
-    (resolve, reject) => resolve(), //TODO:  Implement
+export default permissionName => validate(
+    (resolve, reject) => {
+        new UserPermissionCompiled().forUser(loggedInUser().id).includes(permissionName) ? resolve() : reject();
+    },
     "You do not have permission to access this",
     403
 );
