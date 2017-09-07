@@ -9,9 +9,7 @@ import {error} from 'atp-active-record';
 export default userName => validate(
     (resolve, reject) => {
         new User().getByUserName(userName)
-            .then(user => {
-                user.enabled ? resolve() : reject();
-            })
+            .then(user => {user.enabled ? resolve() : reject();})
             .catch(error("Checking your account status", reject))
     },
     "That user is not active",

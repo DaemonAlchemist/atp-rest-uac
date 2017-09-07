@@ -16,8 +16,8 @@ export default (req, res, next) => {
             .required(password, 'Password')
         .chain("validLogin").if(["password", "userName"])
             .userNameExists(userName)
-            .userActive(userName)
-            .userUnlocked(userName)
+            .userNameActive(userName)
+            .userNameUnlocked(userName)
             .validLogin(userName, password)
         .then(
             () => {
@@ -33,7 +33,7 @@ export default (req, res, next) => {
                     });
             },
             errors => {
-                res.status(errors[0].code).send({messages: errors});
+                res.status(errors[0].code || 500).send({messages: errors});
             }
         );
 }

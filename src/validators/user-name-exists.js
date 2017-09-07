@@ -10,7 +10,7 @@ export default userName => validate(
     (resolve, reject) => {
         new User().where('user_name', userName).count()
             .then(result => {result === 1 ? resolve() : reject();})
-            .catch(error("Checking your account status", reject));
+            .catch(error("Checking whether your account exists", reject));
     },
     "That user does not exist",
     404
