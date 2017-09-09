@@ -7,8 +7,8 @@ import validate from 'atp-validator';
 
 export default (req, res) => {
     validate()
-        .loggedIn()
-        .hasPermission('auth.user.view')
+         .loggedIn()
+        // .hasPermission('auth.user.view')
         .then(() => {
             new User().list()
                 .then(rows => {

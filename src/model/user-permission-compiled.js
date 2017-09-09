@@ -7,7 +7,7 @@ import {Entity} from 'atp-active-record';
 export default class UserPermissionCompiled extends Entity
 {
     constructor() {
-        super('user', 'atpauth_user_permission_compiled');
+        super('auth', 'atpauth_user_permission_compiled');
     }
 
     forUser(userId) {

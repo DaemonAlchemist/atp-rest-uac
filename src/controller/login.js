@@ -18,18 +18,16 @@ export default (req, res, next) => {
             .userNameExists(userName)
             .userNameActive(userName)
             .userNameUnlocked(userName)
-            .validLogin(userName, password)
+            //.validLogin(userName, password)
         .then(
             () => {
                 const user = new User();
                 const userData = user.getByUserName(userName)
                 const loginToken = user.createLoginToken(req, userData);
                 res
-                    .header('loginToken', loginToken)
-                    .cookie('loginToken', loginToken)
+                    .header('Login-Token', loginToken)
                     .send({
                         messages: [{'type': 'success', 'text': 'Login successful'}],
-                        results: {loginToken}
                     });
             },
             errors => {
