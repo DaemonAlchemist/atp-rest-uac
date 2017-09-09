@@ -9,11 +9,11 @@ export default {
     post: NOT_IMPLEMENTED,
     ':roleId': {
         get: NOT_IMPLEMENTED,
-        'delete': NOT_IMPLEMENTED,
+        delete: NOT_IMPLEMENTED,
         permission: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,
-            'delete': NOT_IMPLEMENTED
+            delete: NOT_IMPLEMENTED
         }
     }
 };

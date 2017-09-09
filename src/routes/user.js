@@ -13,16 +13,16 @@ export default {
         get: userViewController,
         put: NOT_IMPLEMENTED,
         patch: NOT_IMPLEMENTED,
-        'delete': NOT_IMPLEMENTED,
+        delete: NOT_IMPLEMENTED,
         role: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,
-            'delete': NOT_IMPLEMENTED
+            delete: NOT_IMPLEMENTED
         },
         permission: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,
-            'delete': NOT_IMPLEMENTED
+            delete: NOT_IMPLEMENTED
         }
     }
 };
