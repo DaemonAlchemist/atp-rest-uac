@@ -24,8 +24,8 @@
   "author": "Andrew Wittrock",
   "license": "MIT",
   "dependencies": {
-    "atp-config": "^0.1.1",
-    "atp-rest": "^0.1.0",
+    "atp-config": ">=0.1.1",
+    "atp-rest": ">=0.1.0",
     "jsonwebtoken": "^7.4.3",
     "password-hash": "^1.2.2"
   },
