@@ -3,7 +3,6 @@
  */
 
 import {Entity} from 'atp-active-record';
-import jwt from 'jsonwebtoken';
 import config from 'atp-config';
 import hash from 'password-hash';
 
@@ -28,18 +27,6 @@ export default class User extends Entity
 
     getByUserName(userName) {
         return this.getByIndex('user_name', userName);
-    }
-
-    createLoginToken(req, user) {
-        return jwt.sign({}, this.secretKey, {
-            algorithm: config.get('uac.jwt.algorithm'),
-            expiresIn: config.get('uac.jwt.expiresIn'),
-            notBefore: Date.now(),
-            audience: config.get('uac.jwt.audience')(req),
-            issuer: config.get('uac.jwt.issuer')(req),
-            jwtid: "" + user.id,
-            subject: user.username
-        });
     }
 
     hashPassword(password) {

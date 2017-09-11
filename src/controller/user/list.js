@@ -4,26 +4,18 @@
 
 import User from '../../model/user';
 import validate from 'atp-validator';
+import {response} from 'atp-rest';
 
 export default (req, res) => {
     validate()
-         .loggedIn()
-        // .hasPermission('auth.user.view')
-        .then(() => {
-            new User().list()
-                .then(rows => {
-                    res.send({results: rows});
-                })
-                .catch(err => {
-                    res.send({messages: [
-                        {
-                            type: "error",
-                            text: "There was an error accessing the user ist: " + err.syscall + "[" + err.code + "]"
-                        }
-                    ]});
-                });
-        })
-        .catch(errors => {
-            res.send({errors});
-        });
+         .loggedIn(req)
+         .hasPermission('auth.user.view')
+        .then(
+            () => {
+                new User().list()
+                    .then(response.Success(req, res))
+                    .catch(response.InternalServerError(req, res));
+            },
+            response.ValidationFail(req, res)
+        );
 }

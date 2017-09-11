@@ -4,6 +4,8 @@
 
 import validator from 'atp-validator';
 import User from "../model/user";
+import {message, response} from 'atp-rest';
+import {createLoginToken} from '../util';
 
 export default (req, res, next) => {
     const userName = req.body.userName;
@@ -18,20 +20,19 @@ export default (req, res, next) => {
             .userNameExists(userName)
             .userNameActive(userName)
             .userNameUnlocked(userName)
-            //.validLogin(userName, password)
+            .validLogin(userName, password)
         .then(
             () => {
-                const user = new User();
-                const userData = user.getByUserName(userName)
-                const loginToken = user.createLoginToken(req, userData);
-                res
-                    .header('Login-Token', loginToken)
-                    .send({
-                        messages: [{'type': 'success', 'text': 'Login successful'}],
-                    });
+                new User().getByUserName(userName)
+                    .then(
+                        user => {
+                            const loginToken = createLoginToken(req, user);
+                            res.header('Login-Token', loginToken);
+                            response.Success(req, res)(null);
+                        },
+                        response.InternalServerError(req, res)
+                    )
             },
-            errors => {
-                res.status(errors[0].code || 500).send({messages: errors});
-            }
+            response.ValidationFail(req, res)
         );
 }
