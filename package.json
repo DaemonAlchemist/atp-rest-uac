@@ -1,6 +1,6 @@
 {
   "name": "atp-rest-uac",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "User access control REST endpoints",
   "main": "lib/index.js",
   "scripts": {
