@@ -7,6 +7,6 @@ import {isLoggedIn} from "../util";
 
 export default request => validate(
     (resolve, reject) => isLoggedIn(request) ? resolve() : reject(),
-    "You must be logged in to access this",
+    "You must be logged in to access this resource",
     401
 );

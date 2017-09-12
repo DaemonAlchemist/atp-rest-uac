@@ -10,7 +10,7 @@ export default (userName, password) => validate(
         const user = new User();
         user.getByUserName(userName)
             .then(userData => {
-                user.hashPassword(password) === userData.password_hash ? resolve() : reject();
+                user.verifyPassword(password, userData) ? resolve() : reject();
             })
             .catch(error("Checking your account status", reject));
     },
