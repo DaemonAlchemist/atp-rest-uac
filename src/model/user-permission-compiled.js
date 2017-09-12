@@ -15,7 +15,7 @@ export default class UserPermissionCompiled extends Entity
             this.where('user_id', userId)
                 .list()
                 .then(
-                    rows => resolve(rows.map(row => row.permissionName)),
+                    rows => resolve(rows.map(row => row.permission_name)),
                     reject
                 );
         });
