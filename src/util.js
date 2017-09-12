@@ -4,6 +4,7 @@
 
 import jwt from 'jsonwebtoken';
 import config from 'atp-config';
+import Promise from 'promise';
 
 config.setDefaults({
     auth: {
@@ -14,7 +15,7 @@ config.setDefaults({
                 audience: req => req.headers.host,
                 issuer: req => req.headers.host,
                 secretKey: "df34r3tg4h93rg8j24r29u4fnunrf928nr894nf8943n389nf2n4",
-                allowed: {
+                allowedIn: {
                     header: true,
                     cookie: true
                 }
@@ -23,10 +24,19 @@ config.setDefaults({
     }
 });
 
-export const isLoggedIn = request => {
-    //TODO:  implement
-    return true;
-};
+export const isLoggedIn = request => new Promise((resolve, reject) => {
+    if(config.get('auth.login.token.allowedIn.header') && typeof request.headers.logintoken !== 'undefined') {
+        jwt.verify(request.headers.logintoken, config.get('auth.login.token.secretKey'), {
+            algorithm: config.get('auth.login.token.algorithm'),
+            audience: config.get('auth.login.token.audience')(req),
+            issuer: config.get('auth.login.token.issuer')(req),
+        }, payload => {
+            console.log(payload);
+            resolve();
+        });
+    }
+    reject();
+});
 
 export const loggedInUser = request => {
     //TODO:  implement
