@@ -18,4 +18,8 @@ export default class User extends Entity
     hashPassword(password) {
         return hash.generate(password);
     }
+
+    verifyPassword(password, user) {
+        return hash.verify(password, user.password_hash);
+    }
 }
