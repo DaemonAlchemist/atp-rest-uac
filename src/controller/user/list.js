@@ -8,11 +8,11 @@ import {response} from 'atp-rest';
 
 export default (req, res) => {
     validate()
-         .loggedIn(req)
-         .hasPermission('auth.user.view')
+        .loggedIn(req)
+        .hasPermission('auth.user.view')
         .then(
             () => {
-                new User().list()
+                new User().filter(req.query).list()
                     .then(response.Success(req, res))
                     .catch(response.InternalServerError(req, res));
             },
