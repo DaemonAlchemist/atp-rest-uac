@@ -10,6 +10,7 @@ export default (req, res) => {
     validate()
         .loggedIn(req)
         .hasPermission('auth.user.view')
+        .validCollectionFilters(req.query)
         .then(
             () => {
                 new User().filter(req.query).list()
