@@ -9,6 +9,7 @@ config.setDefaults({
     auth: {
         login: {
             token: {
+                secretKey: "df34r3tg4h93rg8j24r29u4fnunrf928nr894nf8943n389nf2n4",
                 allowed: {
                     header: true,
                     cookie: true
@@ -28,7 +29,7 @@ export const loggedInUser = request => {
     return {id: 123};
 };
 
-export const createLoginToken = (req, user) => jwt.sign({}, this.secretKey, {
+export const createLoginToken = (req, user) => jwt.sign({}, config.get('auth.login.token.secretKey'), {
     algorithm: config.get('uac.jwt.algorithm'),
     expiresIn: config.get('uac.jwt.expiresIn'),
     notBefore: Date.now(),
