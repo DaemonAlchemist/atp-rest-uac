@@ -6,7 +6,7 @@ import {validate} from "atp-validator";
 import {isLoggedIn} from "../util";
 
 export default request => validate(
-    (resolve, reject) => isLoggedIn(request).then(resolve, reject),
+    isLoggedIn(request),
     "You must be logged in to access this resource",
     401
 );
