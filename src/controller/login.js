@@ -13,12 +13,12 @@ export default (req, res, next) => {
     const userName = req.body.userName;
     const password = req.body.password;
     validator()
-        .for("userName")
+        .check("userName")
             .required(userName, 'Username')
             .isAlphaNumeric(userName, "Username")
-        .for("password")
+        .check("password")
             .required(password, 'Password')
-        .for("validLogin").if(["password", "userName"])
+        .check("validLogin").if(["password", "userName"])
             .userNameExists(userName)
             .userNameActive(userName)
             .userNameUnlocked(userName)
