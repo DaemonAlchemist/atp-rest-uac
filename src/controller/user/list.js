@@ -4,7 +4,7 @@
 
 import User from '../../model/user';
 import validate from 'atp-validator';
-import {response} from 'atp-rest';
+import {respondWith} from 'atp-rest';
 
 export default (req, res) => {
     validate()
@@ -14,9 +14,9 @@ export default (req, res) => {
         .then(
             () => {
                 new User().filter(req.query).list()
-                    .then(response.Success(req, res))
-                    .catch(response.InternalServerError(req, res));
+                    .then(respondWith.Success(req, res))
+                    .catch(respondWith.InternalServerError(req, res));
             },
-            response.ValidationFail(req, res)
+            respondWith.ValidationFail(req, res)
         );
 }

@@ -5,7 +5,7 @@
 import validator from 'atp-validator';
 import User from "../model/user";
 import UserPermissionCompiled from "../model/user-permission-compiled";
-import {message, response} from 'atp-rest';
+import {message, respondWith} from 'atp-rest';
 import {createLoginToken} from '../util';
 import {o} from 'atp-sugar';
 
@@ -34,14 +34,14 @@ export default (req, res, next) => {
                             new UserPermissionCompiled().forUser(user.id).then(
                                 permissions => {
                                     user.permissions = permissions;
-                                    response.Success(req, res)(user);
+                                    respondWith.Success(req, res)(user);
                                 },
-                                response.InternalServerError(req, res)
+                                respondWith.InternalServerError(req, res)
                             );
                         },
-                        response.InternalServerError(req, res)
+                        respondWith.InternalServerError(req, res)
                     )
             },
-            response.ValidationFail(req, res)
+            respondWith.ValidationFail(req, res)
         );
 }
