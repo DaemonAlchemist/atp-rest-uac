@@ -34,7 +34,7 @@ export default (req, res, next) => {
                             new UserPermissionCompiled().forUser(user.id).then(
                                 permissions => {
                                     user.permissions = permissions;
-                                    respondWith.Success(req, res)(user);
+                                    respondWith.Success(req, res)({profile: user});
                                 },
                                 respondWith.InternalServerError(req, res)
                             );
