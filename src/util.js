@@ -35,7 +35,10 @@ export const isLoggedIn = request => new Promise((resolve, reject) => {
         check(allowedIn.cookie, request.cookie.loginToken ) ||
         check(allowedIn.body,   request.body.loginToken   ) ||
         check(allowedIn.query,  request.query.loginToken  ),
-    request).then(resolve, reject);
+    request).then(
+        resolve,
+        () => {reject();}
+    );
 });
 
 export const loggedInUser = request => {
