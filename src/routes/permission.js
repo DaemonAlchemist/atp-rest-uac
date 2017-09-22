@@ -2,10 +2,11 @@
  * Created by Andy on 8/25/2017.
  */
 
-import {NOT_IMPLEMENTED} from 'atp-rest';
+import {basicCollectionController, NOT_IMPLEMENTED} from 'atp-rest';
+import Permission from "../model/permission";
 
 export default {
-    get: NOT_IMPLEMENTED,
+    get: basicCollectionController(Permission, 'auth.permission.view'),
     post: NOT_IMPLEMENTED,
     ':permissionId': {
         get: NOT_IMPLEMENTED,
