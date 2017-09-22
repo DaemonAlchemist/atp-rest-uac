@@ -3,23 +3,10 @@
  */
 
 import {Entity} from 'atp-active-record';
-import hash from 'password-hash';
 
-export default class User extends Entity
+export default class Role extends Entity
 {
     constructor() {
-        super('auth', 'atpauth_user', ['user_name']);
-    }
-
-    getByUserName(userName) {
-        return this.getByIndex('user_name', userName);
-    }
-
-    hashPassword(password) {
-        return hash.generate(password);
-    }
-
-    verifyPassword(password, user) {
-        return hash.verify(password, user.password_hash);
+        super('auth', 'atpauth_role', []);
     }
 }
