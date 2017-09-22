@@ -2,12 +2,12 @@
  * Created by Andy on 8/25/2017.
  */
 
-import userListController from '../controller/user/list';
 import userViewController from '../controller/user/view';
-import {NOT_IMPLEMENTED} from 'atp-rest';
+import {basicCollectionController, NOT_IMPLEMENTED} from 'atp-rest';
+import User from "../model/user";
 
 export default {
-    get: userListController,
+    get: basicCollectionController(User, 'auth.user.view'),
     post: NOT_IMPLEMENTED,
     ':userName': {
         get: userViewController,
