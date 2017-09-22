@@ -2,10 +2,12 @@
  * Created by Andy on 8/25/2017.
  */
 
-import {NOT_IMPLEMENTED} from 'atp-rest';
+import Role from "../model/role";
+
+import {basicCollectionController, NOT_IMPLEMENTED} from 'atp-rest';
 
 export default {
-    get: NOT_IMPLEMENTED,
+    get: basicCollectionController(Role, 'auth.role.view'),
     post: NOT_IMPLEMENTED,
     ':roleId': {
         get: NOT_IMPLEMENTED,
