@@ -41,8 +41,6 @@ export default {
         },
         permission: {
             get: NOT_IMPLEMENTED,
-            post: NOT_IMPLEMENTED,
-            delete: NOT_IMPLEMENTED
         }
     }
 };
