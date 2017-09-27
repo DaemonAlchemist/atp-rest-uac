@@ -4,7 +4,7 @@
 
 import Role from "../model/role";
 
-import {basicCollectionController, basicEntityController, basicEntityDeleteController, NOT_IMPLEMENTED} from 'atp-rest';
+import {basicController, NOT_IMPLEMENTED} from 'atp-rest';
 
 const createPermission = 'auth.role.create';
 const viewPermission = 'auth.role.view';
@@ -19,11 +19,15 @@ const restParams = permission => ({
 });
 
 export default {
-    get: basicCollectionController({model: Role, permission: viewPermission}),
-    post: NOT_IMPLEMENTED,
+    get: basicController.entity.collection({model: Role, permission: viewPermission}),
+    post: basicController.entity.create({
+        model: Role,
+        permission: createPermission,
+        validate: v => v, //TODO:  Implement role creation validations
+    }),
     ':roleId': {
-        get: basicEntityController(restParams(viewPermission)),
-        delete: basicEntityDeleteController(restParams(deletePermission)),
+        get: basicController.entity.view(restParams(viewPermission)),
+        delete: basicController.entity.delete(restParams(deletePermission)),
         permission: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,
