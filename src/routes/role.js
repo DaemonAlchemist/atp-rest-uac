@@ -3,13 +3,11 @@
  */
 
 import Role from "../model/role";
+import {createCrudPermissions} from "../util";
 
 import {basicController, NOT_IMPLEMENTED} from 'atp-rest';
 
-const createPermission = 'auth.role.create';
-const viewPermission = 'auth.role.view';
-const updatePermission = 'auth.role.update';
-const deletePermission = 'auth.role.delete';
+const permissions = createCrudPermissions('auth', 'role');
 
 const restParams = permission => ({
     model: Role,
@@ -19,15 +17,15 @@ const restParams = permission => ({
 });
 
 export default {
-    get: basicController.entity.collection({model: Role, permission: viewPermission}),
+    get: basicController.entity.collection({model: Role, permission: permissions.view}),
     post: basicController.entity.create({
         model: Role,
-        permission: createPermission,
+        permission: permissions.create,
         validate: v => v, //TODO:  Implement role creation validations
     }),
     ':roleId': {
-        get: basicController.entity.view(restParams(viewPermission)),
-        delete: basicController.entity.delete(restParams(deletePermission)),
+        get: basicController.entity.view(restParams(permissions.view)),
+        delete: basicController.entity.delete(restParams(permissions.delete)),
         permission: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,

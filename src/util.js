@@ -76,3 +76,12 @@ export const parseLoginToken = (token, req) => new Promise((resolve, reject) => 
             err ? reject(err) : resolve(payload);
         });
 });
+
+export const createCrudPermissions = (module, model) =>
+    ['create', 'view', 'update', 'delete']
+        .reduce(
+            (combined, perm) => Object.assign({}, combined, {
+                [perm]: [module, model, perm].join('.')
+            }),
+            {}
+        );
