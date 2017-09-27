@@ -2,18 +2,29 @@
  * Created by Andy on 8/25/2017.
  */
 
-import userViewController from '../controller/user/view';
-import {basicCollectionController, NOT_IMPLEMENTED} from 'atp-rest';
+import {basicCollectionController, basicEntityController, basicEntityDeleteController, NOT_IMPLEMENTED} from 'atp-rest';
 import User from "../model/user";
 
+const createPermission = 'auth.user.create';
+const viewPermission = 'auth.user.view';
+const updatePermission = 'auth.user.update';
+const deletePermission = 'auth.user.delete';
+
+const restParams = permission => ({
+    model: User,
+    permission,
+    idField: 'userId',
+    validate: (v, req) => v.isInteger(req.params.userId, "userId").userExists(req.params.userId)
+});
+
 export default {
-    get: basicCollectionController(User, 'auth.user.view'),
+    get: basicCollectionController({model: User, viewPermission}),
     post: NOT_IMPLEMENTED,
-    ':userName': {
-        get: userViewController,
+    ':userId': {
+        get: basicEntityController(restParams(viewPermission)),
         put: NOT_IMPLEMENTED,
         patch: NOT_IMPLEMENTED,
-        delete: NOT_IMPLEMENTED,
+        delete: basicEntityDeleteController(restParams(deletePermission)),
         role: {
             get: NOT_IMPLEMENTED,
             post: NOT_IMPLEMENTED,
