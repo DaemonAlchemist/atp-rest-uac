@@ -4,6 +4,7 @@
 
 import {validate} from "atp-validator";
 import {error} from 'atp-active-record';
+import User from "../model/user";
 
 export default userId => validate(
     (resolve, reject) => {

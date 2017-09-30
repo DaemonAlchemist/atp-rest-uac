@@ -2,8 +2,11 @@
  * Created by Andy on 8/25/2017.
  */
 
-import {basicController, NOT_IMPLEMENTED} from 'atp-rest';
+import {basicController} from 'atp-rest';
 import User from "../model/user";
+import roleController from "../controller/user/role";
+import permissionController from "../controller/user/permission";
+
 import {createCrudPermissions} from "../util";
 
 const permissions = createCrudPermissions('auth', 'user');
@@ -34,13 +37,7 @@ export default {
         put: basicController.entity.replace(updateParams(permissions.update)),
         patch: basicController.entity.update(updateParams(permissions.update)),
         delete: basicController.entity.delete(restParams(permissions.delete)),
-        role: {
-            get: NOT_IMPLEMENTED,
-            post: NOT_IMPLEMENTED,
-            delete: NOT_IMPLEMENTED
-        },
-        permission: {
-            get: NOT_IMPLEMENTED,
-        }
+        role: roleController,
+        permission: permissionController
     }
 };

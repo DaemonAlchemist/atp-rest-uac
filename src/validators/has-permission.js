@@ -14,8 +14,8 @@ export default (permissionName, request) => validate(
                 .then(permissions => {
                     permissions.includes(permissionName) ? resolve() : reject();
                 });
-        }, () => reject());
+        }, err => reject(err));
     },
-    "You do not have permission to access this",
+    "You do not have permission to access this resource: " + permissionName,
     403
 );

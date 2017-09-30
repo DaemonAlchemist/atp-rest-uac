@@ -6,12 +6,13 @@ import jwt from 'jsonwebtoken';
 import config from 'atp-config';
 import Promise from 'promise';
 import User from "./model/user";
+import {o} from "atp-sugar";
 
 config.setDefaults({
     auth: {
         login: {
             token: {
-                expiresIn: '15m',
+                expiresIn: 99999999999999999999,
                 algorithm: 'HS256',
                 audience: req => req.headers.host,
                 issuer: req => req.headers.host,
@@ -78,10 +79,9 @@ export const parseLoginToken = (token, req) => new Promise((resolve, reject) => 
 });
 
 export const createCrudPermissions = (module, model) =>
-    ['create', 'view', 'update', 'delete']
-        .reduce(
-            (combined, perm) => Object.assign({}, combined, {
-                [perm]: [module, model, perm].join('.')
-            }),
-            {}
-        );
+    ['create', 'view', 'update', 'delete'].reduce(
+        (combined, action) => combined.merge({
+            [action]: [module, model, action].join('.')
+        }),
+        o({})
+    ).raw;
