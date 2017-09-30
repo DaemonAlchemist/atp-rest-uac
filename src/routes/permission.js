@@ -5,6 +5,7 @@
 import {basicController, NOT_IMPLEMENTED} from 'atp-rest';
 import Permission from "../model/permission";
 import {createCrudPermissions} from "../util";
+import roleController from "../controller/permission/role";
 
 const permissions = createCrudPermissions('auth', 'permission');
 
@@ -25,10 +26,6 @@ export default {
     ':permissionId': {
         get: basicController.entity.view(restParams(permissions.view)),
         delete: basicController.entity.delete(restParams(permissions.delete)),
-        role: {
-            get: NOT_IMPLEMENTED,
-            post: NOT_IMPLEMENTED,
-            delete: NOT_IMPLEMENTED
-        }
+        role: roleController
     }
 };
