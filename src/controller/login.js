@@ -42,6 +42,6 @@ export default (req, res, next) => {
                         respondWith.InternalServerError(req, res)
                     )
             },
-            respondWith.ValidationFail(req, res)
+            respondWith.Error(req, res)
         );
 }
