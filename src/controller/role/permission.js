@@ -16,5 +16,7 @@ export default {
         otherName: 'permission'
     }),
     post: NOT_IMPLEMENTED,
-    delete: NOT_IMPLEMENTED
+    ':permissionId': {
+        delete: NOT_IMPLEMENTED
+    }
 }
