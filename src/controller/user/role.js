@@ -17,5 +17,7 @@ export default {
         otherName: 'role',
     }),
     post: NOT_IMPLEMENTED,
-    delete: NOT_IMPLEMENTED
-}
+    ':roleId': {
+        delete: NOT_IMPLEMENTED
+    }
+};

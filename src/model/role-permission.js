@@ -10,3 +10,10 @@ export default class RolePermission extends Entity
         super('auth', 'atpauth_role_permission_view', []);
     }
 }
+
+export class RolePermissionBase extends Entity
+{
+    constructor(){
+        super('auth', 'atpauth_role_permission', []);
+    }
+}
