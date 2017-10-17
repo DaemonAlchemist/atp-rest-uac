@@ -79,7 +79,7 @@ export const parseLoginToken = (token, req) => new Promise((resolve, reject) => 
 });
 
 export const createCrudPermissions = (module, model) =>
-    ['create', 'view', 'update', 'delete'].reduce(
+    ['create', 'view', 'edit', 'delete'].reduce(
         (combined, action) => combined.merge({
             [action]: [module, model, action].join('.')
         }),

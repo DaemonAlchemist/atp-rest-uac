@@ -34,8 +34,8 @@ export default {
     }),
     ':userId': {
         get: basicController.entity.view(restParams(permissions.view)),
-        put: basicController.entity.replace(updateParams(permissions.update)),
-        patch: basicController.entity.update(updateParams(permissions.update)),
+        put: basicController.entity.replace(updateParams(permissions.edit)),
+        patch: basicController.entity.update(updateParams(permissions.edit)),
         delete: basicController.entity.delete(restParams(permissions.delete)),
         role: roleController,
         permission: permissionController
