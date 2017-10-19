@@ -18,9 +18,9 @@ config.setDefaults({
                 issuer: req => req.headers.host,
                 secretKey: "df34r3tg4h93rg8j24r29u4fnunrf928nr894nf8943n389nf2n4",
                 allowedIn: {
-                    header: true,
+                    headers: true,
                     cookie: true,
-                    query: false,
+                    query: true,
                     body: false
                 }
             }
@@ -30,15 +30,24 @@ config.setDefaults({
 
 export const getLoginToken = request => {
     const allowedIn = config.get('auth.login.token.allowedIn');
-    const check = (allowed, value) => allowed && typeof value !== 'undefined' ? value : false;
-    return check(allowedIn.header, request.headers['login-token']) ||
-           check(allowedIn.cookie, request.cookie.loginToken ) ||
-           check(allowedIn.body,   request.body.loginToken   ) ||
-           check(allowedIn.query,  request.query.loginToken  );
+    const check = (location, name) =>
+        allowedIn[location]
+        && typeof request[location] !== 'undefined'
+        && typeof request[location][name] !== 'undefined'
+            ? request[location][name]
+            : false;
+    return check('headers', 'login-token') ||
+           check('cookie',  'loginToken' ) ||
+           check('body',    'loginToken' ) ||
+           check('query',   'loginToken' );
 };
 
 export const isLoggedIn = request => new Promise((resolve, reject) => {
-    parseLoginToken(getLoginToken(request), request).then(resolve, () => {reject();});
+    try {
+        parseLoginToken(getLoginToken(request), request).then(resolve, () => {reject();});
+    } catch(e) {
+        reject();
+    }
 });
 
 export const loggedInUser = request => new Promise((resolve, reject) => {
