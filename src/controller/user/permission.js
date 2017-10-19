@@ -13,7 +13,7 @@ export default {
     get: basicController.entity.collection({
         model: UserPermissionCompiled,
         permission: permissions.view,
-        filter: req => ({user_id: req.params.userId}),
-        processResults: permissions => permissions.map(p => p.permission_name)
+        filter: req => ({userId: req.params.userId}),
+        processResults: permissions => permissions.map(p => p.permissionName)
     }),
 };

@@ -8,11 +8,11 @@ import hash from 'password-hash';
 export default class User extends Entity
 {
     constructor() {
-        super('auth', 'atpauth_user', ['user_name']);
+        super('auth', 'atpauth_user', ['userName']);
     }
 
     getByUserName(userName) {
-        return this.getByIndex('user_name', userName);
+        return this.getByIndex('userName', userName);
     }
 
     hashPassword(password) {
@@ -20,6 +20,6 @@ export default class User extends Entity
     }
 
     verifyPassword(password, user) {
-        return hash.verify(password, user.password_hash);
+        return hash.verify(password, user.passwordHash);
     }
 }

@@ -28,7 +28,7 @@ export default (req, res, next) => {
                 new User().getByUserName(userName)
                     .then(
                         user => {
-                            user = o(user).delete('password_hash').delete('login_token').raw;
+                            user = o(user).delete('passwordHash').delete('loginToken').raw;
                             const loginToken = createLoginToken(req, user);
                             res.header('Login-Token', loginToken);
                             new UserPermissionCompiled().forUser(user.id).then(

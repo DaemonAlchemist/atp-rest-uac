@@ -12,10 +12,10 @@ export default class UserPermissionCompiled extends Entity
 
     forUser(userId) {
         return new Promise((resolve, reject) => {
-            this.where('user_id', userId)
+            this.where('userId', userId)
                 .list()
                 .then(
-                    rows => resolve(rows.map(row => row.permission_name)),
+                    rows => resolve(rows.map(row => row.permissionName)),
                     reject
                 );
         });
