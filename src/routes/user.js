@@ -4,40 +4,19 @@
 
 import {basicController} from 'atp-rest';
 import User from "../model/user";
-import roleController from "../controller/user/role";
-import permissionController from "../controller/user/permission";
+import role from "../controller/user/role";
+import permission from "../controller/user/permission";
+import {o} from 'atp-sugar';
 
 import {createCrudPermissions} from "../util";
 
 const permissions = createCrudPermissions('auth', 'user');
+const model = User;
+const idField = 'userId';
 
-const restParams = permission => ({
-    model: User,
-    permission,
-    idField: 'userId',
-    validate: (v, req) => v.isInteger(req.params.userId, "userId").userExists(req.params.userId)
-});
-
-const updateParams = permission => ({
-    model: User,
-    permission,
-    idField: "userId",
-    validate: v => v, //TODO:  Implement user edit validations
-})
-
-export default {
-    get: basicController.entity.collection({model: User, permission: permissions.view}),
-    post: basicController.entity.create({
-        model: User,
-        permission: permissions.create,
-        validate: v => v, //TODO:  Implement user creation validations
-    }),
-    ':userId': {
-        get: basicController.entity.view(restParams(permissions.view)),
-        put: basicController.entity.replace(updateParams(permissions.edit)),
-        patch: basicController.entity.update(updateParams(permissions.edit)),
-        delete: basicController.entity.delete(restParams(permissions.delete)),
-        role: roleController,
-        permission: permissionController
+export default o(basicController.entity.crud({model, permissions, idField})).merge({
+    [':' + idField]: {
+        role,
+        permission
     }
-};
+}).raw;
