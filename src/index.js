@@ -7,6 +7,7 @@ import loginRoutes from "./routes/login";
 import roleRoutes from "./routes/role";
 import permissionRoutes from "./routes/permission";
 import {createCrudPermissions} from "./util";
+import User from './model/user';
 
 import validators from "./validators/index";
 
@@ -22,4 +23,4 @@ export default ({
     }
 });
 
-export {createCrudPermissions};
+export {createCrudPermissions, User};

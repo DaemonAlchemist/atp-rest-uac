@@ -12,7 +12,7 @@ config.setDefaults({
     auth: {
         login: {
             token: {
-                expiresIn: 99999999999999999999,
+                expiresIn: "2 days",
                 algorithm: 'HS256',
                 audience: req => req.headers.host,
                 issuer: req => req.headers.host,
@@ -65,14 +65,14 @@ export const loggedInUser = request => new Promise((resolve, reject) => {
     );
 });
 
-export const createLoginToken = (req, user) => jwt.sign({}, config.get('auth.login.token.secretKey'), {
+export const createLoginToken = (req, user, options = {}) => jwt.sign({}, config.get('auth.login.token.secretKey'), o({
     algorithm: config.get('auth.login.token.algorithm'),
     expiresIn: config.get('auth.login.token.expiresIn'),
     notBefore: 0,
     audience: config.get('auth.login.token.audience')(req),
     issuer: config.get('auth.login.token.issuer')(req),
     jwtid: "" + user.id, //type coercion because jsonwebtoken module requires id to be a string
-});
+}).merge(options).raw);
 
 export const parseLoginToken = (token, req) => new Promise((resolve, reject) => {
     const tokenConfig = config.get('auth.login.token');

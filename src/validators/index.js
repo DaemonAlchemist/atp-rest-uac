@@ -11,11 +11,12 @@ import userNameActive from "./user-name-active";
 import userUnlocked from "./user-unlocked";
 import userNameUnlocked from "./user-name-unlocked";
 import validLogin from "./valid-login";
+import passwordCorrect from "./passwordCorrect";
 
 export default {
     loggedIn, hasPermission,
     userExists, userNameExists,
     userActive, userNameActive,
     userUnlocked, userNameUnlocked,
-    validLogin
+    validLogin, passwordCorrect
 };
