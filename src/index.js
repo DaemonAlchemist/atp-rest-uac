@@ -2,22 +2,18 @@
  * Created by Andy on 8/25/2017.
  */
 
-import userRoutes from './routes/user';
-import loginRoutes from "./routes/login";
-import roleRoutes from "./routes/role";
-import permissionRoutes from "./routes/permission";
+import user from './routes/user';
+import key from "./routes/key";
+import login from "./routes/login";
+import role from "./routes/role";
+import permission from "./routes/permission";
 import {createCrudPermissions} from "./util";
 import User from './model/user';
 
 import validators from "./validators/index";
 
 export default ({
-    routes: {
-        user: userRoutes,
-        login: loginRoutes,
-        permission: permissionRoutes,
-        role: roleRoutes,
-    },
+    routes: {user, key, login, permission, role},
     config: {
         validators
     }

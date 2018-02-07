@@ -6,7 +6,10 @@ import jwt from 'jsonwebtoken';
 import config from 'atp-config';
 import Promise from 'promise';
 import User from "./model/user";
+import ApiKey from './model/key';
+
 import {o} from "atp-sugar";
+import {_, prop} from 'atp-pointfree';
 
 config.setDefaults({
     auth: {
@@ -23,12 +26,34 @@ config.setDefaults({
                     query: true,
                     body: false
                 }
+            },
+        },
+        apiKey: {
+            allowedIn: {
+                headers: true,
+                cookie: true,
+                query: true,
+                body: false
             }
         }
     }
 });
 
-export const getLoginToken = request => {
+const getApiKey = request => {
+    const allowedIn = config.get('auth.apiKey.allowedIn');
+    const check = (location, name) =>
+        allowedIn[location]
+        && typeof request[location] !== 'undefined'
+        && typeof request[location][name] !== 'undefined'
+            ? request[location][name]
+            : false;
+    return check('headers', 'api-key') ||
+           check('cookie',  'apiKey' ) ||
+           check('body',    'apiKey' ) ||
+           check('query',   'apiKey' );
+};
+
+const getLoginToken = request => {
     const allowedIn = config.get('auth.login.token.allowedIn');
     const check = (location, name) =>
         allowedIn[location]
@@ -42,27 +67,42 @@ export const getLoginToken = request => {
            check('query',   'loginToken' );
 };
 
+const getCredentials = request =>
+    getApiKey(request)     ? {type: 'apiKey', key: getApiKey(request)      } :
+    getLoginToken(request) ? {type: 'token',  token: getLoginToken(request)} :
+                             {type: 'INVALID'};
+
 export const isLoggedIn = request => new Promise((resolve, reject) => {
     try {
-        parseLoginToken(getLoginToken(request), request).then(resolve, () => {reject();});
+        const credentials = getCredentials(request);
+        switch(credentials.type) {
+            case 'apiKey':
+                loggedInUser(request).then(resolve, reject);
+                break;
+            case 'token':
+                parseLoginToken(credentials.token, request).then(resolve, () => {reject();});
+                break;
+            default:
+                reject();
+        }
+
     } catch(e) {
         reject();
     }
 });
 
 export const loggedInUser = request => new Promise((resolve, reject) => {
-    parseLoginToken(getLoginToken(request), request).then(
-        payload => {
-            new User().getById(payload.jti).then(
-                user => {
-                    resolve(user);
-                },
-                err => {
-                    reject(err);
-                }
-            );
-        }
-    );
+    const credentials = getCredentials(request);
+
+    const getUser = id => new User().getById(id).then(resolve, reject);
+
+    switch(credentials.type) {
+        case 'apiKey':
+            new ApiKey().getByIndex('apikey', credentials.key).then(_(getUser, prop('userId')))
+            break;
+        case 'token':
+            parseLoginToken(credentials.token, request).then(_(getUser, prop('jti')));
+    }
 });
 
 export const createLoginToken = (req, user, options = {}) => jwt.sign({}, config.get('auth.login.token.secretKey'), o({

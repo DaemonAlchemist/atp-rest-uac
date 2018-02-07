@@ -6,12 +6,14 @@ import {basicController} from 'atp-rest';
 import {validate} from 'atp-validator';
 import User from "../model/user";
 import role from "../controller/user/role";
+import keyController from "./key";
 import permission from "../controller/user/permission";
 import {o} from 'atp-sugar';
 
 import {createCrudPermissions} from "../util";
 
 const permissions = createCrudPermissions('auth', 'user');
+const keyPermissions = createCrudPermissions('auth', 'key');
 const model = User;
 const idField = 'userId';
 
@@ -44,6 +46,9 @@ export default o(basicController.entity.crud({
 })).merge({
     [':' + idField]: {
         role,
-        permission
+        permission,
+        key: {
+            get: basicController.entity.children(keyPermissions, idField, keyController)
+        },
     }
 }).raw;
