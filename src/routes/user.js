@@ -21,19 +21,19 @@ export default o(basicController.entity.crud({
     model, permissions, idField,
     validateUpdate: (validator, req) => validator
         .isOptional(req.body.newPassword, v => v
-            .check("currentPassword")
+            .check("validPasswordUpdate")
                 .isOptional(req.body.currentPassword, "current password", v => v
                     .passwordCorrect(req.params.userId, req.body.currentPassword)
                 )
-            .check("passwordResetPermission")
-                .hasPermission("auth.user.password.reset")
-            .check("goodNewPassword").ifAny(["currentPassword", "passwordResetPermission"])
                 .required(req.body.newPasswordConfirm, "new password confirmation")
                 .custom(validate(
                     () => req.body.newPassword === req.body.newPasswordConfirm,
                     "New passwords do not match",
                     400
                 ))
+            .check("passwordResetPermission")
+                .hasPermission("auth.user.password.reset")
+            .check("goodNewPassword").ifAny(["validPasswordUpdate", "passwordResetPermission"])
         ),
     preUpdate: data => data.newPassword
         ? o(data)
