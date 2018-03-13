@@ -14,6 +14,6 @@ export default {
         model: UserPermissionCompiled,
         permission: permissions.view,
         filter: req => ({userId: req.params.userId}),
-        processResults: permissions => permissions.map(p => p.permissionName)
+        processResults: permissions => ({results: permissions.map(p => p.permissionName)})
     }),
 };
